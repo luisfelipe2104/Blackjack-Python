@@ -1,6 +1,7 @@
 This a blackjack game that I made in Python
 
 Commands:
+
 1 = Stay
 
 2 = Hit
