@@ -87,7 +87,11 @@ def game():
     while playerIn or dealerIn:
         print()
         print("-------------------------------")
-        print(f"Dealer has {revealDealerHand()} and...")
+        if len(dealerHand) == 2:
+            print(f"Dealer has {revealDealerHand()} and...")
+        else:
+            print(f"Dealer has {dealerHand} for a total of {total(dealerHand)}")
+
         print(f"You have {playerHand} for a total of {total(playerHand)}")
         print("-------------------------------")
 
@@ -178,6 +182,7 @@ game()
 # checks if the player wants to play again
 def rePlay():
     print()
+    print("-------------------------------")
     replay = input("Do you want to play again? (Y/N) ").upper()
     if replay == "Y":
         return True
