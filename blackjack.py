@@ -1,21 +1,46 @@
 import random
 
+#------------------------------------------------
+# deck of cards
+deck = [2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+        'Q', 'J', 'K', 'A', 'Q', 'J', 'K', 'A', 'Q', 'J', 'K', 'A', 'Q', 'J', 'K', 'A']
+
+#------------------------------------------------
+
+# in case there's no card
+def no_cards(deck):
+    print("---------------------------------------")
+    print("The deck ran out of cards")
+    print("We're gonna take a new deck")
+    print("---------------------------------------")
+    deck2 = [2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+            'Q', 'J', 'K', 'A', 'Q', 'J', 'K', 'A', 'Q', 'J', 'K', 'A', 'Q', 'J', 'K', 'A']
+
+    deck.extend(deck2)
+#------------------------------------------------
+
 def game():
     playerIn = True
     dealerIn = True
 
 #------------------------------------------------
 
-# deck of cards / player and dealer hand
-    deck = [2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-            'Q', 'J', 'K', 'A', 'Q', 'J', 'K', 'A', 'Q', 'J', 'K', 'A', 'Q', 'J', 'K', 'A']
+# player and dealer hand
     playerHand = []
     dealerHand = []
 
 #------------------------------------------------
 
 # deal the cards
-    def dealCard(turn):
+    def dealCard(turn, deck):
+
+ #------------------------------------------------       
+        # in case there's no card
+        if deck == []:
+            no_cards(deck)
+#------------------------------------------------
+
+        # deals the cards randomly
         card = random.choice(deck)
         turn.append(card)
         deck.remove(card)
@@ -35,7 +60,7 @@ def game():
                 total += 10
 
             else:
-                if total > 11:
+                if total >= 11:
                     total += 1
                 else:
                     total += 11
@@ -56,8 +81,8 @@ def game():
 
 # game loop
     for i in range(2):
-        dealCard(dealerHand)
-        dealCard(playerHand)
+        dealCard(dealerHand, deck)
+        dealCard(playerHand, deck)
 
     while playerIn or dealerIn:
         print()
@@ -69,6 +94,9 @@ def game():
         if total(dealerHand) == 21:
             break
 
+        if total(playerHand) == 21:
+            break
+
         elif playerIn:
             stayOrHit = input("1: Stay \n2: Hit\n")
 
@@ -76,11 +104,11 @@ def game():
 
 # deals cards to the dealer, case the player chooses to stay
         if total(dealerHand) > 16:
-            dealerIn = False
+            dealerIn = False        
     
         else:
             if stayOrHit == '1':
-                dealCard(dealerHand)
+                dealCard(dealerHand, deck)
 
             else:
                 pass
@@ -92,7 +120,7 @@ def game():
             playerIn = False
 
         else:
-            dealCard(playerHand)
+            dealCard(playerHand, deck)
 
 #------------------------------------------------
 
@@ -135,6 +163,11 @@ def game():
         print(f"\nYou have {playerHand} for a total of {total(playerHand)} and the dealer has {dealerHand} for a total of {total(dealerHand)}")
         print("You win!")
 
+    # in case of tie
+    elif total(playerHand) == total(dealerHand):
+        print(f"\nYou have {playerHand} for a total of {total(playerHand)} and the dealer has {dealerHand} for a total of {total(dealerHand)}")
+        print("Tie!")
+
 #------------------------------------------------
 
 # starts the game
@@ -142,14 +175,10 @@ game()
 
 #------------------------------------------------
 
-
-
-#------------------------------------------------
-
 # checks if the player wants to play again
 def rePlay():
     print()
-    replay = input("Do you want to play again? (Y/N)").upper()
+    replay = input("Do you want to play again? (Y/N) ").upper()
     if replay == "Y":
         return True
 
