@@ -19,7 +19,7 @@ def no_cards(deck):
     deck.extend(deck2)
 #------------------------------------------------
 
-def game():
+while True:
     playerIn = True
     dealerIn = True
 
@@ -79,12 +79,8 @@ def game():
 
 #------------------------------------------------
 
-# game loop
-    for i in range(2):
-        dealCard(dealerHand, deck)
-        dealCard(playerHand, deck)
-
-    while playerIn or dealerIn:
+# shows the total of each hand
+    def turn():
         print()
         print("-------------------------------")
         if len(dealerHand) == 2:
@@ -95,6 +91,15 @@ def game():
         print(f"You have {playerHand} for a total of {total(playerHand)}")
         print("-------------------------------")
 
+#------------------------------------------------
+
+# game loop
+    for i in range(2):
+        dealCard(dealerHand, deck)
+        dealCard(playerHand, deck)
+
+    while playerIn or dealerIn:
+
         if total(dealerHand) == 21:
             break
 
@@ -102,7 +107,18 @@ def game():
             break
 
         elif playerIn:
-            stayOrHit = input("1: Stay \n2: Hit\n")
+            responses = ['1', '2']
+            stayOrHit = None
+
+            while stayOrHit not in responses:
+                turn()
+
+                stayOrHit = input("1: Stay \n2: Hit\n")
+
+
+        elif not playerIn:
+            turn()
+
 
 #------------------------------------------------
 
@@ -174,27 +190,19 @@ def game():
 
 #------------------------------------------------
 
-# starts the game
-game()
-
-#------------------------------------------------
-
 # checks if the player wants to play again
-def rePlay():
     print()
     print("-------------------------------")
-    replay = input("Do you want to play again? (Y/N) ").upper()
-    if replay == "Y":
-        return True
+    playAgain = ['Y', 'N']
+    replay = None
+    while replay not in playAgain:
+        replay = input("Do you want to play again? (Y/N) ").upper()
+    
+    if replay == 'N':
+        break
 
     else:
-        return False
-
-#------------------------------------------------
-
-# case the player wants to play again it executes the game()
-while rePlay():
-    game()
+        pass
 
 #------------------------------------------------
 
